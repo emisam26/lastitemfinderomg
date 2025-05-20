@@ -17,23 +17,63 @@
     <div class="card-body">
         {{item.description}}
     </div>
-    {% comment %} <div class="row">
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            
+
+    {% comment %} claim stuff {% endcomment %}
+    <button class="btn btn-outline-success" data-toggle="modal" data-target="#claimModal">Claim</button>
+
+    <!-- Inquiry Modal -->
+    <div class="modal fade" id="claimModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="claimmodalLabel">Claim</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'contact' %}" method="POST">
+                        {% csrf_token %}
+                        {% if user.is_authenticated %}
+                        <input type="hidden" name="user_id" value="{{ user.id}}">
+                        {% else %}
+                        <input type="hidden" name="user_id" value="0">
+                        {% endif %}
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <div class="form-group">
+                            <label for="item_name" class="col-form-label">Item:</label>
+                            <input type="text" name="item" class="form-control" value="{{ item.title }}">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" name="name" class="form-control" 
+                            {% if user.is_authenticated %}
+                            value="{{ user.first_name }} {{ user.last_name }}"
+                            {%endif%}
+                            required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-form-label">Email:</label>
+                            <input type="email" name="email" class="form-control" 
+                            {% if user.is_authenticated %}
+                            value="{{ user.email }}"
+                            {%endif%}
+                            required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="col-form-label">Message:</label>
+                            <textarea name="message" class="form-control"></textarea>
+                        </div>
+                        <hr>
+                        <input type="submit" value="Send" class="btn btn-block btn-success">
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-          <p>No items found!</p>
-        </div>
-    </div> {% endcomment %}
+    </div>
+    
+
+
 <!-- /.container-fluid -->
 </div>
 <!-- End of Main Content -->
