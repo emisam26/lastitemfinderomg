@@ -14,12 +14,12 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 </head>
-<body id="page-top">
+<body class="d-flex flex-column min-vh-100">
     <!-- Page Wrapper -->
     <div id="wrapper">
         {% include 'partials/_sidebar.html' %}
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        {% comment %} <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
                 {% include 'partials/_topbar.html' %}
@@ -29,6 +29,15 @@
                 <!-- End of Main Content -->
                 {% include 'partials/_footer.html' %}
             </div>
+        </div> {% endcomment %}
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column flex-grow-1">
+            <div id="content" class="flex-grow-1">
+                {% include 'partials/_topbar.html' %}
+                {% block content %}{% endblock %}
+            </div>
+            
+            {% include 'partials/_footer.html' %}
         </div>
         <!-- End of Content Wrapper -->
     </div>
