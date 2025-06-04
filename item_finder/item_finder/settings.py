@@ -57,9 +57,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'pages',
-    'accounts',
-    'found_items',
+    'accounts',      
+    'found_items',   
+    'pages', 
 ]
 
 MIDDLEWARE = [
@@ -178,8 +178,8 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-from django.contrib.messages import constants as messages
+# from django.contrib.messages import constants as messages
 
-MESSAGE_TAGS = {
-    messages.ERROR: "danger",
-}
+# MESSAGE_TAGS = {
+#     messages.ERROR: "danger",
+# }

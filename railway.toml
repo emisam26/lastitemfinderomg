@@ -1,8 +1,0 @@
-[build]
-builder = "NIXPACKS"
-
-[deploy]
-startCommand = "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn item_finder.wsgi:application"
-
-[env]
-NIXPACKS_PYTHON_VERSION = "3.11"
