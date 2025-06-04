@@ -63,6 +63,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -161,11 +162,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'item_finder/static')
+    os.path.join(BASE_DIR, 'static')
 ]
 
 # media folder setting
@@ -178,8 +179,11 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# from django.contrib.messages import constants as messages
+from django.contrib.messages import constants as messages
 
-# MESSAGE_TAGS = {
-#     messages.ERROR: "danger",
-# }
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
+
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
