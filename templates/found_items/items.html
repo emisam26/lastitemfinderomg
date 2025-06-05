@@ -25,12 +25,13 @@
                                 </h5>
                                 <p class="m-0 font-weight-normal text-gray-800">{{item.date_found}}</p> 
                             </div>
-                            <img class="card-img-top" src="{{listing.photo.url}}" alt="">
+                            <img class="card-img-top" src="{{item.photo.url}}" alt="">
                             <div class="card-body">
                                 {% comment %} Description of the item.....
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis odio ut leo tristique ornare. Pellentesque pretium nulla id enim efficitur vulputate. Sed at ligula nunc. Fusce felis nibh, convallis quis scelerisque ut, scelerisque vel massa. Nam eu libero id. {% endcomment %}
                                 {{item.description}}
                             </div>
+                            <a href="{%url 'item' item.id%}" class="btn btn-block btn-success">More Info</a>
                         </div>
                     </div>
                 </div>
