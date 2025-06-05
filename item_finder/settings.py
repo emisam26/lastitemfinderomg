@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://https://lastitemfinderomg-production.up.railway.app'
+    'https://lastitemfinderomg-production.up.railway.app'
 ]
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
