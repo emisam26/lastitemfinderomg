@@ -5,3 +5,5 @@ dj-database-url
 gunicorn
 Pillow
 whitenoise
+supabase
+supafunc

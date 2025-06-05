@@ -15,6 +15,8 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,6 +34,8 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+
 
 # Load appropriate env file
 if os.getenv('RAILWAY_ENVIRONMENT'):
