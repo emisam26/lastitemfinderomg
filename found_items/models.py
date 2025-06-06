@@ -19,28 +19,39 @@ class UploadedFile(models.Model):
             super().save(*args, **kwargs)
             return
 
-        from django.conf import settings
-
         supabase_url = os.getenv("SUPABASE_URL")
         supabase_key = os.getenv("SUPABASE_KEY")
+
         if not (supabase_url and supabase_key):
-            print("Supabase credentials missing")
+            print("🚫 Supabase credentials missing.")
+            super().save(*args, **kwargs)
             return
 
         supabase = create_client(supabase_url, supabase_key)
 
         file_name = self.image.name
         subfolder_path = f"photos/{file_name}"
-        file_data = self.image.file
 
-        response = supabase.storage.from_("media").upload(subfolder_path, file_data)
-        if "error" in response:
-            print("Upload error:", response["error"])
+        # ✅ read the file as bytes
+        file_data = self.image.read()
+
+        # Try uploading
+        response = supabase.storage.from_("media").upload(
+            path=subfolder_path,
+            file=file_data,
+            file_options={"content-type": self.image.file.content_type}
+        )
+
+        print("📤 Upload response:", response)
+
+        if "error" in response and response["error"] is not None:
+            print("❌ Upload error:", response["error"])
         else:
-            self.image = f"{supabase_url}/storage/v1/object/public/media/{subfolder_path}"
+            public_url = f"{supabase_url}/storage/v1/object/public/media/{subfolder_path}"
+            print(f"✅ Uploaded to: {public_url}")
+            self.image = public_url  # Save URL instead of actual file path
 
         super().save(*args, **kwargs)
-         
          
 class Item(models.Model):
     title = models.CharField(max_length=100)
