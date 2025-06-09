@@ -19,7 +19,7 @@ def contact(request):
             has_contacted = Contact.objects.all().filter(item_id=item_id, user_id=user_id)
             if has_contacted:
                 messages.error(request, 'You already made an inquiry for the item!')
-                return redirect('/items/', + item_id) 
+                return redirect('/items/' + item_id) 
         contact = Contact(item=item, item_id=item_id, name=name, email=email, message=message, user_id=user_id)
         contact.save()
         
