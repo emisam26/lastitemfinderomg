@@ -6,8 +6,8 @@ from django.core.mail import send_mail
 # Create your views here.
 def contact(request):
     if request.method == 'POST':
-        item_id = request.POST['listing_id']
-        item = request.POST['listing']
+        item_id = request.POST['item_id']
+        item = request.POST['item']
         name = request.POST['name']
         email = request.POST['email']
         message = request.POST['message']
@@ -18,7 +18,7 @@ def contact(request):
             user_id = request.user.id
             has_contacted = Contact.objects.all().filter(item_id=item_id, user_id=user_id)
             if has_contacted:
-                messages.error(request, 'You already made an inquiry for the listing!')
+                messages.error(request, 'You already made an inquiry for the item!')
                 return redirect('/items/', + item_id) 
         contact = Contact(item=item, item_id=item_id, name=name, email=email, message=message, user_id=user_id)
         contact.save()

@@ -23,10 +23,10 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Heading -->
+    {% comment %} <!-- Heading -->
     <div class="sidebar-heading">
         Interface
-    </div>
+    </div> {% endcomment %}
 
     {% comment %} <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -85,8 +85,8 @@
                 <a class="collapse-item" href="{% url 'register' %}">Register</a>
                 {% comment %} <a class="collapse-item" href="forgot-password.html">Forgot Password</a> {% endcomment %}
                 <div class="collapse-divider"></div>
-                {% comment %} <h6 class="collapse-header">Other Pages:</h6>
-                <a class="collapse-item" href="404.html">404 Page</a>
+                <h6 class="collapse-header">Other Pages:</h6>
+                {% comment %} <a class="collapse-item" href="404.html">404 Page</a>
                 <a class="collapse-item" href="blank.html">Blank Page</a> {% endcomment %}
                 <a class="collapse-item" href="{% url 'items' %}">Items Page</a>
             </div>
