@@ -192,10 +192,27 @@
                     Activity Log
                 </a> {% endcomment %}
                 {% comment %} <div class="dropdown-divider"></div> {% endcomment %}
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                {% comment %} <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a> {% endcomment %}
+                <a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
+                <form action="{% url 'logout' %}" method="POST" id="logout">
+                        {% csrf_token %}
+                        <input type="hidden">
+                </form>
+                {% comment %} <li class="nav-item mr-3">
+                    <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>  Logout
+                    </a>
+                    <form action="{% url 'logout' %}" method="POST" id="logout">
+                        {% csrf_token %}
+                        <input type="hidden">
+                    </form>
+                </li> {% endcomment %}
             </div>
         </li>
         {% else %}
