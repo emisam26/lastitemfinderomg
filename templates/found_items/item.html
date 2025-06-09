@@ -5,8 +5,8 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Items</h1>
-        <a href="{% url 'items' %}">Items</a>
+        {% comment %} <h1 class="h3 mb-0 text-gray-800">Items</h1>
+        <a href="{% url 'items' %}">Items</a> {% endcomment %}
         <a href="{% url 'items' %}">
             <span  class="h3 mb-0 text-gray-800">Items</span></a>
     </div>
@@ -23,7 +23,7 @@
 
     {% comment %} claim stuff {% endcomment %}
     <button class="btn btn-outline-success" data-toggle="modal" data-target="#claimModal">Claim</button>
-{% comment %}  
+ 
     <!-- Inquiry Modal -->
     <div class="modal fade" id="claimModal" role="dialog">
         <div class="modal-dialog">
@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    {% endcomment %}
+
 
 
 <!-- /.container-fluid -->
