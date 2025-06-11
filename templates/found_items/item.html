@@ -16,7 +16,14 @@
         </h5>
         <p class="m-0 font-weight-normal text-gray-800">{{item.date_found}}</p> 
     </div>
-    <img class="card-img-top" src="{{item.photo.url}}" alt="">
+    {% comment %} <img class="card-img-top" src="{{item.photo.url}}" alt=""> {% endcomment %}
+    {% if item.photo %}
+        <img class="card-img-top" src="{{ item.photo }}" alt="Item Photo">
+    {% else %}
+        <p><em>No image available</em></p>
+    {% endif %}
+
+
     <div class="card-body">
         {{item.description}}
     </div>
