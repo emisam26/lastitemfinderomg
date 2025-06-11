@@ -63,11 +63,12 @@
 # def __str__(self):
 #     return self.title
 
-from django.db import models
-from datetime import datetime
 import os
-from supabase import create_client
+from datetime import datetime
+from django.db import models
 from django.core.files.storage import default_storage
+from supabase import create_client
+
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
@@ -77,43 +78,39 @@ class Item(models.Model):
     date_found = models.DateTimeField(default=datetime.now, blank=True)
 
     def save(self, *args, **kwargs):
-        # Temporarily save the file to local storage so we can read it
+        # Save locally first
         super().save(*args, **kwargs)
 
-        # Upload to Supabase
+        # Setup Supabase client
         supabase_url = os.getenv("SUPABASE_URL")
         supabase_key = os.getenv("SUPABASE_KEY")
-
         if not (supabase_url and supabase_key):
-            print("🚫 Supabase credentials missing.")
+            print("🚫 Supabase credentials are missing.")
             return
 
         supabase = create_client(supabase_url, supabase_key)
 
-        # File path relative to media root
-        file_path = self.photo.name  # e.g., 'photos/2025/06/11/image.jpg'
-
-        # Absolute local path to the file
-        local_file_path = os.path.join(default_storage.location, file_path)
-
         try:
-            with open(local_file_path, "rb") as file_data:
+            # Absolute path to file on local disk
+            local_path = os.path.join(default_storage.location, self.photo.name)
+
+            with open(local_path, "rb") as f:
+                supabase_path = f"photos/{os.path.basename(self.photo.name)}"
                 response = supabase.storage.from_("media").upload(
-                    path=f"photos/{os.path.basename(file_path)}",  # optional: remove dated subfolders
-                    file=file_data,
+                    supabase_path, f,
                     file_options={"content-type": self.photo.file.content_type}
                 )
 
             if response.get("error"):
-                print("❌ Supabase upload error:", response["error"])
+                print(f"❌ Upload error: {response['error']}")
             else:
-                # Overwrite `photo` with public URL
-                public_url = f"{supabase_url}/storage/v1/object/public/media/photos/{os.path.basename(file_path)}"
+                public_url = f"{supabase_url}/storage/v1/object/public/media/{supabase_path}"
+                print(f"✅ Uploaded to Supabase: {public_url}")
                 self.photo.name = public_url
-                super().save(update_fields=["photo"])  # Save just the updated field
+                super().save(update_fields=["photo"])
 
         except Exception as e:
-            print("⚠️ Error uploading file:", e)
+            print(f"❌ Exception while uploading: {e}")
 
     def __str__(self):
         return self.title
