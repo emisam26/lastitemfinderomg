@@ -20,7 +20,7 @@ def contact(request):
             if has_contacted:
                 messages.error(request, 'You already made an inquiry for the item!')
                 return redirect('/found_items/' + item_id) 
-        contact = Contact(item=item, item_id=item_id, name=name, email=email, message=message, user_id=user_id)
+        contact = Contact(item_id=item_id, item=item, name=name, email=email, message=message, user_id=user_id)
         contact.save()
         
         # send an email to the admin
