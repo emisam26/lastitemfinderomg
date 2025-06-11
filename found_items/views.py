@@ -21,3 +21,16 @@ def item(request, itemid):
         'item' : item
     }
     return render(request, 'found_items/item.html', context)
+
+def save_model(self, request, obj, form, change):
+    super().save_model(request, obj, form, change)  # Save normally
+    
+    # Build paths
+    file_path = obj.photo.path  # local file path after save
+    supabase_path = f"photos/{os.path.basename(file_path)}"
+    
+    # Upload to supabase
+    public_url = upload_to_supabase(file_path, supabase_path)
+    if public_url:
+        obj.supabase_url = public_url
+        obj.save(update_fields=['supabase_url'])

@@ -63,12 +63,8 @@
 # def __str__(self):
 #     return self.title
 
-import os
-from datetime import datetime
 from django.db import models
-from django.core.files.storage import default_storage
-from supabase import create_client
-
+from datetime import datetime
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
@@ -76,41 +72,7 @@ class Item(models.Model):
     description = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/')
     date_found = models.DateTimeField(default=datetime.now, blank=True)
-
-    def save(self, *args, **kwargs):
-        # Save locally first
-        super().save(*args, **kwargs)
-
-        # Setup Supabase client
-        supabase_url = os.getenv("SUPABASE_URL")
-        supabase_key = os.getenv("SUPABASE_KEY")
-        if not (supabase_url and supabase_key):
-            print("🚫 Supabase credentials are missing.")
-            return
-
-        supabase = create_client(supabase_url, supabase_key)
-
-        try:
-            # Absolute path to file on local disk
-            local_path = os.path.join(default_storage.location, self.photo.name)
-
-            with open(local_path, "rb") as f:
-                supabase_path = f"photos/{os.path.basename(self.photo.name)}"
-                response = supabase.storage.from_("media").upload(
-                    supabase_path, f,
-                    file_options={"content-type": self.photo.file.content_type}
-                )
-
-            if response.get("error"):
-                print(f"❌ Upload error: {response['error']}")
-            else:
-                public_url = f"{supabase_url}/storage/v1/object/public/media/{supabase_path}"
-                print(f"✅ Uploaded to Supabase: {public_url}")
-                self.photo.name = public_url
-                super().save(update_fields=["photo"])
-
-        except Exception as e:
-            print(f"❌ Exception while uploading: {e}")
+    supabase_url = models.URLField(blank=True, null=True)  # New field to save URL
 
     def __str__(self):
         return self.title

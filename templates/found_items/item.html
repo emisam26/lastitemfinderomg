@@ -18,7 +18,7 @@
     </div>
     {% comment %} <img class="card-img-top" src="{{item.photo.url}}" alt=""> {% endcomment %}
     {% if item.photo %}
-        <img class="card-img-top" src="{{ item.photo }}" alt="Item Photo">
+        <img class="card-img-top" src="{{ item.supabase_url|default:item.photo.url }}" alt="{{ item.title }}">
     {% else %}
         <p>No photo available.</p>
     {% endif %}
