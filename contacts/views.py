@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Contact
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.conf import settings
+
 
 # Create your views here.
 def contact(request):
@@ -27,7 +29,7 @@ def contact(request):
         send_mail(
             "Property",
             "There has been an inquiry for " + item + ". Sign into the admin panel for more information." ,
-            "lily18570@gmail.com", # your email
+            settings.EMAIL_HOST_USER, # your email
             ["emisam26@bergen.org"], # admin/recipient email
             fail_silently=False,
         )
